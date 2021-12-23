@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name = "array_company">
+        <item>CJ대한통운</item>
+        <item>CU 편의점택배</item>
+        <item>GS Postbox 택배</item>
+        <item>우체국 택배</item>
+        <item>한진택배</item>
+        <item>합동택배</item>
+        <item>경동택배</item>
+        <item>건영택배</item>
+        <item>로젠택배</item>
+        <item>롯데택배</item>
+        <item>일양로지스</item>
+        <item>한서호남택배</item>
+        <item>홈픽</item>
+        <item>한의사랑택배</item>
+        <item>대신택배</item>
+        <item>DHL</item>
+        <item>Sagawa</item>
+        <item>Kuroneko Yamato</item>
+        <item>Japan Post</item>
+        <item>CWAY (Woori Express)</item>
+
+
+    </string-array>
+
+</resources>

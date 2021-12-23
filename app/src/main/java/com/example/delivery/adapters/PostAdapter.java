@@ -180,6 +180,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 //                            }
 
 
+
                     Toast.makeText(v.getContext(), "hi", Toast.LENGTH_SHORT).show();
 
 

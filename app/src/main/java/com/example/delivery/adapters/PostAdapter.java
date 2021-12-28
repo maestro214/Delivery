@@ -2,6 +2,8 @@ package com.example.delivery.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +18,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delivery.R;
+import com.example.delivery.convertcom.convertloc;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.convertcom.convertcom;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.naver.maps.geometry.LatLng;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,6 +42,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+
+
 
 
     private OnItemClickListener mListener = null ;
@@ -120,18 +128,35 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             if(response.isSuccessful()){
 
                                 ApiData apiData = response.body();
-
-
-                                //Log.d("test","onresponse: 성공,결과 \n"+apiData.getProgresses());
-
                                 int test = apiData.getProgresses().size();
 
                                 for(int i = 0; i < test; i++) {
-                                    System.out.println(apiData.getProgresses().get(i).getLocation());
+
+                                  //  ArrayList locationname = new ArrayList();
+                                    String locationname = apiData.getProgresses().get(i).getLocation().toString();
+
+                                    convertloc convertloc = new convertloc();
+                                    locationname = convertloc.convertlocation(locationname);
+
+                                    //System.out.println(locationname);
+                                    Geocoder geocoder = new Geocoder(v.getContext().getApplicationContext());
+                                    List<Address> list = null;
+                                    LatLng xy = null;
+                                    try {
+                                        list = geocoder.getFromLocationName(locationname, 10);
+                                        double x = list.get(0).getLatitude();
+                                        double y = list.get(0).getLongitude();
+                                        xy = new LatLng(x, y);
+
+                                        Log.d("test", xy.toString());
+
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+
                                 }
-
-
-
                             }else{
                                 Log.d("test","실패");
                             }

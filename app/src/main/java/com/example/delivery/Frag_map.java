@@ -110,8 +110,8 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                                         marker.setIcon(OverlayImage.fromResource(R.drawable.home));
                                         marker.setWidth(80);
                                         marker.setHeight(80);
-
                                         marker.setMap(naverMap);
+
                                         CameraPosition cameraPosition = new CameraPosition(new LatLng(36.659812305882014, 127.72590), 6, 0, 0);
                                         naverMap.setCameraPosition(cameraPosition);
                                         Log.d("god", "진행중");                    }

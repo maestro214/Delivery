@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,39 +15,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.example.delivery.FirebaseID;
-import com.example.delivery.Frag_list;
-import com.example.delivery.Frag_map;
-import com.example.delivery.MainActivity;
-import com.example.delivery.MapPoint;
 import com.example.delivery.R;
-import com.example.delivery.SignupActivity;
-import com.example.delivery.WebviewActivity;
-import com.example.delivery.models.ApiPost;
+import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.convertcom.convertcom;
-import com.example.delivery.retrofit.DeliveryService;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
@@ -103,6 +83,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private TextView number;
         private WebView webview;
         private Button btn_addmap,btn_delete;
+        private String carrier;
+        private String track_id;
 
 
         public PostViewHolder(@NonNull View itemView) {
@@ -118,36 +100,48 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 @Override
                 public void onClick(View v) {
 
+                    carrier = company.getText().toString();
+                    track_id = number.getText().toString();
+                    convertcom convertcom = new convertcom();
+                    String carrier_id = convertcom.convertcompany(carrier);
 
-//                    String com = company.getText().toString();
-//                    String num = number.getText().toString();
-//
-//                    //Log.d("test",com+num);
-//                    convertcom convertcom = new convertcom();
-//                    String fcom = convertcom.convertcompany(com);
-//                    Gson gson = new GsonBuilder().create();
-//
-//                    String apiuri = "https://apis.tracker.delivery/carriers/"+fcom+"/tracks/"+num;
-//
-//                    try {
-//                        URL url = new URL(apiuri);
-//
-//                        InputStream is = url.openStream();
-//                        InputStreamReader isr = new InputStreamReader(is);
-//                        BufferedReader reader = new BufferedReader(isr);
-//
-//                        StringBuffer buffer = new StringBuffer();
-//                        String line = reader.readLine();
-//                        Log.d("line",line);
-//                    }catch (IOException e){
-//                        e.printStackTrace();
-//                    }
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://apis.tracker.delivery/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
 
-//                    Intent intent = new Intent(v.getContext(), Frag_map.class);
-//                    v.getContext().startActivity(intent);
+                    ApiService service = retrofit.create(ApiService.class);
+
+                    Call<ApiData> call = service.getPosts(carrier_id,track_id);
+
+                    call.enqueue(new Callback<ApiData>() {
+                        @Override
+                        public void onResponse(Call<ApiData> call, Response<ApiData> response) {
+                            if(response.isSuccessful()){
+
+                                ApiData apiData = response.body();
 
 
+                                //Log.d("test","onresponse: 성공,결과 \n"+apiData.getProgresses());
 
+                                int test = apiData.getProgresses().size();
+
+                                for(int i = 0; i < test; i++) {
+                                    System.out.println(apiData.getProgresses().get(i).getLocation());
+                                }
+
+
+
+                            }else{
+                                Log.d("test","실패");
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ApiData> call, Throwable t) {
+                            Log.d("test","onresponse: 실패 ");
+                        }
+
+                    });
 
 
 

@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         bottomNavigationView = findViewById(R.id.bottomNavi);
 
         fa = new Frag_list();
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity  {
                             getSupportFragmentManager().beginTransaction().hide(fb).commit();
                         if (fc != null)
                             getSupportFragmentManager().beginTransaction().hide(fc).commit();
-
                         break;
 
                     case R.id.action_map:
@@ -70,7 +68,6 @@ public class MainActivity extends AppCompatActivity  {
                             getSupportFragmentManager().beginTransaction().show(fb).commit();
                         if (fc != null)
                             getSupportFragmentManager().beginTransaction().hide(fc).commit();
-
                         break;
 
 
@@ -82,10 +79,7 @@ public class MainActivity extends AppCompatActivity  {
                         if(fa != null) getSupportFragmentManager().beginTransaction().hide(fa).commit();
                         if(fb != null) getSupportFragmentManager().beginTransaction().hide(fb).commit();
                         if(fc != null) getSupportFragmentManager().beginTransaction().show(fc).commit();
-
-
                         break;
-
 
                 }
                 return true;

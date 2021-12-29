@@ -2,6 +2,7 @@ package com.example.delivery;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 
+import com.example.delivery.adapters.PostAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,12 +64,14 @@ public class CustomDialog  extends Dialog {
                 String postId = mStore.collection(FirebaseID.post).document().getId();
                 Map<String, Object> data = new HashMap<>();
 
+                data.put(FirebaseID.listId,postId);
                 data.put(FirebaseID.documentId,mAuth.getCurrentUser().getUid());
                 data.put(FirebaseID.title, mEdit_title.getText().toString());
                 data.put(FirebaseID.company,spinner_company.getSelectedItem().toString());
                 data.put(FirebaseID.number, mEdit_number.getText().toString());
                 data.put(FirebaseID.timestamp, FieldValue.serverTimestamp());
                 mStore.collection(FirebaseID.post).document(postId).set(data, SetOptions.merge());
+
                 dismiss();
             }
         });

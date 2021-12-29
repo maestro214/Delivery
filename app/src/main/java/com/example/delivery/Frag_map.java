@@ -1,5 +1,8 @@
 package com.example.delivery;
 
+import static com.naver.maps.map.NaverMap.*;
+import static com.naver.maps.map.NaverMap.MapType.*;
+
 import android.content.Context;
 import android.location.Address;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +36,7 @@ import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.NaverMap.MapType;
 import com.naver.maps.map.NaverMapOptions;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
@@ -47,7 +52,7 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-
+    com.naver.maps.geometry.LatLng locationname;
 
 
     @Nullable
@@ -68,7 +73,7 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
+    public void onMapReady(@NonNull NaverMap naverMap ) {
 
 
         FirebaseUser user = mAuth.getCurrentUser();
@@ -88,7 +93,6 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                                         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext());
                                         List<Address> list = null;
                                         Log.d("address",address);
-                                        //String str = "서울시 광진구 자양동 230-13";
 
                                         LatLng xy = null;
                                         try {
@@ -104,7 +108,7 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                                             e.printStackTrace();
                                         }
 
-                                        naverMap.setMapType(NaverMap.MapType.Navi);
+                                        naverMap.setMapType(Navi);
                                         Marker marker = new Marker();
                                         marker.setPosition(xy);
                                         marker.setIcon(OverlayImage.fromResource(R.drawable.home));
@@ -112,9 +116,16 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                                         marker.setHeight(80);
                                         marker.setMap(naverMap);
 
+
+
+                                        Marker marker1 = new Marker();
+                                        marker1.setPosition(new LatLng(37.53824945496125, 126.98259599547545));
+                                        marker1.setMap(naverMap);
+
                                         CameraPosition cameraPosition = new CameraPosition(new LatLng(36.659812305882014, 127.72590), 6, 0, 0);
                                         naverMap.setCameraPosition(cameraPosition);
-                                        Log.d("god", "진행중");                    }
+                                        Log.d("god", "진행중");
+                                    }
                                 }else {
 
                                 }
@@ -128,6 +139,14 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                     }
 
 
+    public void setMarker(com.naver.maps.geometry.LatLng locationname){
+
+//        System.out.println(locationname);
+
+
+
+
+    }
 
 
 

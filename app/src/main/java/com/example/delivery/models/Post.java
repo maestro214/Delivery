@@ -4,11 +4,20 @@ public class Post {
 
     private String documentId;
     private String title;
+    private String listId;
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
     private String company;
     private String number;
 
-    public Post() {
-    }
+
 
 
     public String getDocumentId() {
@@ -43,14 +52,13 @@ public class Post {
         this.number = number;
     }
 
-    public Post(String documentId, String title, String company, String number) {
+    public Post(String documentId, String title,String listId, String company, String number) {
         this.documentId = documentId;
         this.title = title;
+        this.listId = listId;
         this.company = company;
         this.number = number;
     }
-
-
 
 
     @Override
@@ -58,6 +66,7 @@ public class Post {
         return "Post{" +
                 "documentId='" + documentId + '\'' +
                 ", title='" + title + '\'' +
+                ", listId='" + listId + '\'' +
                 ", company='" + company + '\'' +
                 ", number='" + number + '\'' +
                 '}';

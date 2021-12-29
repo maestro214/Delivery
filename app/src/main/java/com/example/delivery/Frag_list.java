@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,56 +69,49 @@ public class Frag_list extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         mDatas = new ArrayList<>();
+        String id = mAuth.getCurrentUser().getUid();
 
 
-        CollectionReference productRef = mStore.collection("post");
-        productRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        mStore.collection(FirebaseID.post).orderBy(FirebaseID.timestamp, Query.Direction.DESCENDING)
+        .whereEqualTo("documentId",id)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                        if (queryDocumentSnapshots != null) {
+                            mDatas.clear();
+                            for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
+                                Map<String, Object> shot = snap.getData();
+                                String documentId = String.valueOf(shot.get(FirebaseID.documentId));
+                                String title = String.valueOf(shot.get(FirebaseID.title));
+                                String listId = String.valueOf(shot.get(FirebaseID.listId));
+                                String company = String.valueOf(shot.get(FirebaseID.company));
+                                String number = String.valueOf(shot.get(FirebaseID.number));
+                                Post data = new Post(documentId, title, listId, company,number);
+                                mDatas.add(data);
+                            }
+                            mAdapter = new PostAdapter(mDatas);
+                            //Log.d("mDatas",mDatas.toString());
+                            mPostRecyclerView.setAdapter(mAdapter);
+                        }
+                    }
+                });
 
-                                                   @Override
-                                                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                                                       for(QueryDocumentSnapshot document : task.getResult()) {
-                                                           Map<String, Object> str = document.getData();
-                                                           String id = String.valueOf(str.get(FirebaseID.documentId));
-                                                           FirebaseUser user = mAuth.getCurrentUser();
-                                                           String id2 = user.getUid();
 
 
-                                                                mStore.collection(FirebaseID.post).whereEqualTo("documentId",id2)
-                                                                        .orderBy(FirebaseID.timestamp, Query.Direction.DESCENDING)
-                                                                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                                                            @Override
-                                                                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                                                                                if (queryDocumentSnapshots != null) {
-                                                                                    mDatas.clear();
-                                                                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                                                                    for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
-                                                                                        Map<String, Object> shot = snap.getData();
-                                                                                        String documentId = String.valueOf(shot.get(FirebaseID.documentId));
-                                                                                        String title = String.valueOf(shot.get(FirebaseID.title));
-                                                                                        String company = String.valueOf(shot.get(FirebaseID.company));
-                                                                                        String number = String.valueOf(shot.get(FirebaseID.number));
-                                                                                        Post data = new Post(documentId, title, company,number);
-                                                                                        mDatas.add(data);
-                                                                                    }
-                                                                                    mAdapter = new PostAdapter(mDatas);
-                                                                                    //Log.d("mDatas",mDatas.toString());
-                                                                                    mPostRecyclerView.setAdapter(mAdapter);
-                                                                                }
-                                                                            }
-
-                                                                        });
-
-                                                           Log.d("id2",id+"와"+id2);
-
-                                                       }
-
-                                                       }
-                                               });
 
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
 }
+
+
+

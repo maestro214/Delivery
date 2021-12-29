@@ -16,4 +16,5 @@ public class FirebaseID {
     public static String company = "company";
     public static String number = "number";
     public static String timestamp = "timestamp";
+    public static String listId = "listId";
 }

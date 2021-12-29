@@ -1,5 +1,6 @@
 package com.example.delivery.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -12,22 +13,26 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.delivery.FirebaseID;
+import com.example.delivery.Frag_list;
+import com.example.delivery.Frag_map;
 import com.example.delivery.R;
 import com.example.delivery.convertcom.convertloc;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.convertcom.convertcom;
+import com.example.delivery.retrofit.ApiService;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.naver.maps.geometry.LatLng;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,10 +48,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
-
-
-
     private OnItemClickListener mListener = null ;
+
+    public PostAdapter() {
+        notifyDataSetChanged();
+
+    }
+
 
     public interface OnItemClickListener {
         void onItemClick(View v, int position) ;
@@ -56,8 +64,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener ;
     }
-
-
 
 
     public PostAdapter(List<Post> datas) {
@@ -71,11 +77,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PostViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Post data = datas.get(position);
         holder.title.setText(data.getTitle());
+        holder.listId.setText(data.getListId());
         holder.company.setText(data.getCompany());
         holder.number.setText(data.getNumber());
+
 
     }
 
@@ -87,6 +95,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     class PostViewHolder extends RecyclerView.ViewHolder{
 
         private TextView title;
+        private TextView listId;
         private TextView company;
         private TextView number;
         private WebView webview;
@@ -99,6 +108,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             super(itemView);
 
             title = itemView.findViewById(R.id.item_post_title);
+            listId = itemView.findViewById(R.id.listId);
             company = itemView.findViewById(R.id.item_post_company);
             number = itemView.findViewById(R.id.item_post_number);
             btn_addmap = itemView.findViewById(R.id.btn_addmap);
@@ -107,7 +117,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             btn_addmap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     carrier = company.getText().toString();
                     track_id = number.getText().toString();
                     convertcom convertcom = new convertcom();
@@ -132,16 +141,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                                 for(int i = 0; i < test; i++) {
 
-                                  //  ArrayList locationname = new ArrayList();
+
                                     String locationname = apiData.getProgresses().get(i).getLocation().toString();
 
                                     convertloc convertloc = new convertloc();
                                     locationname = convertloc.convertlocation(locationname);
 
-                                    //System.out.println(locationname);
                                     Geocoder geocoder = new Geocoder(v.getContext().getApplicationContext());
                                     List<Address> list = null;
-                                    LatLng xy = null;
+
+                                    com.naver.maps.geometry.LatLng xy = null;
                                     try {
                                         list = geocoder.getFromLocationName(locationname, 10);
                                         double x = list.get(0).getLatitude();
@@ -150,11 +159,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                                         Log.d("test", xy.toString());
 
+                                        Frag_map frag_map = new Frag_map();
+                                        frag_map.setMarker(xy);
 
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-
 
                                 }
                             }else{
@@ -165,53 +175,44 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         public void onFailure(Call<ApiData> call, Throwable t) {
                             Log.d("test","onresponse: 실패 ");
                         }
-
                     });
-
-
-
-
-
-
                 }
             });
-
-
-
 
             btn_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-//                    mStore.collection(FirebaseID.post).document(FirebaseID.documentId)
-//                            .delete()
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    Log.d("stat", "DocumentSnapshot successfully deleted!");
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Log.w("stat", "Error deleting document", e);
-//                                }
-//                            }
+                    mStore.collection(FirebaseID.post).document(listId.getText().toString())
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("stat", "DocumentSnapshot successfully deleted!");
+                                    Frag_list frag_list = new Frag_list();
 
-
-
-                    Toast.makeText(v.getContext(), "hi", Toast.LENGTH_SHORT).show();
-
-
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("stat", "Error deleting document", e);
+                                }
+                            });
+                    datas.remove(getBindingAdapterPosition());
+                    notifyItemRemoved(getBindingAdapterPosition());
+                    notifyDataSetChanged();
                 }
             });
+
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    int pos = getAdapterPosition() ;
+                    int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         // 데이터 리스트로부터 아이템 데이터 참조.
                         String com = company.getText().toString();
@@ -224,22 +225,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         //intent.putExtra("num",num);
 
                         //view.getContext().startActivity(intent);
-                        String url = "https://tracker.delivery/#/"+fcom+"/"+num;
+                        String url = "https://tracker.delivery/#/" + fcom + "/" + num;
 
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         view.getContext().startActivity(intent);
-
-
-
-
-
-
                     }
-
                 }
-
-
-
             });
         }
     }

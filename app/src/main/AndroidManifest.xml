@@ -19,8 +19,7 @@
         <activity
             android:name=".SignupActivity"
             android:exported="true" />
-        <activity android:name=".Frag_map"
-            android:exported="true"/>
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">

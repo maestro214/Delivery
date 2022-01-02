@@ -1,6 +1,7 @@
 package com.example.delivery.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -47,7 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     private List<Post> datas;
-    private FragmentActivity context;
+    private AppCompatActivity context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private OnItemClickListener mListener = null ;
@@ -55,7 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public void transaction(){
 
-        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+        FragmentManager fm = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction;
         Frag_map frag_map = new Frag_map();
         fragmentTransaction = fm.beginTransaction();
@@ -176,6 +177,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                         frag_map.setPoint(pointlist);
                                         //Intent intent =new Intent(itemView.getContext(),Frag_map.class);
                                         //itemView.getContext().startActivity(intent);
+                                        transaction();
 
 
 

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -16,15 +18,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private EditText mEmail;
     private EditText mPassword;
 
@@ -53,10 +58,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
        //     Toast.makeText(this,"로그아웃 성공",Toast.LENGTH_SHORT).show();
         }else {
         FirebaseUser user = mAuth.getCurrentUser();
-        if(user!= null) {
-            Toast.makeText(this, "자동 로그인:" + user.getUid(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MainActivity.class));
+
+
+
+        mStore.collection("user").whereEqualTo("documentId",user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> str = document.getData();
+                        String nickname = String.valueOf(str.get(FirebaseID.nickname));
+                        System.out.println(nickname);
+                        if(user!= null) {
+                            Toast.makeText(LoginActivity.this, "자동 로그인 :  " + nickname+"님 환영합니다", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                    }
+                }
+
+            }
         }
+
+
+
+        });
         }
     }
 

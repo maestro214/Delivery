@@ -34,6 +34,8 @@ public class Frag_account extends Fragment {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+
+    private String zizital;
     Button logout, delete;
     TextView my_nickname, my_email;
 
@@ -53,7 +55,7 @@ public class Frag_account extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id2 = user.getUid();
         if (user != null) {
-            mStore.collection("user").whereEqualTo("documentId",id2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            mStore.collection("user").whereEqualTo("documentId",mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {

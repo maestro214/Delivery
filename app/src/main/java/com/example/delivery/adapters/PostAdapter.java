@@ -1,7 +1,6 @@
 package com.example.delivery.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,10 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delivery.FirebaseID;
-import com.example.delivery.Frag_list;
 import com.example.delivery.Frag_map;
 import com.example.delivery.R;
 import com.example.delivery.convertcom.convertloc;
@@ -33,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.naver.maps.geometry.LatLng;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,15 +47,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     private List<Post> datas;
-    private Context context;
+    private FragmentActivity context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
-
     private OnItemClickListener mListener = null ;
 
-    public PostAdapter() {
-        notifyDataSetChanged();
 
+    public void transaction(){
+
+        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction;
+        Frag_map frag_map = new Frag_map();
+        fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, frag_map);
+        fragmentTransaction.commit();
     }
 
 
@@ -74,6 +82,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent,false));
+
+
     }
 
     @Override
@@ -104,6 +114,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private String track_id;
 
 
+
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -121,6 +132,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     track_id = number.getText().toString();
                     convertcom convertcom = new convertcom();
                     String carrier_id = convertcom.convertcompany(carrier);
+
+                    List<LatLng> pointlist = new ArrayList<>();
 
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("https://apis.tracker.delivery/")
@@ -157,16 +170,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                         double y = list.get(0).getLongitude();
                                         xy = new LatLng(x, y);
 
-                                        Log.d("test", xy.toString());
+                                        pointlist.add(xy);
 
                                         Frag_map frag_map = new Frag_map();
-                                        frag_map.setMarker(xy);
+                                        frag_map.setPoint(pointlist);
+                                        //Intent intent =new Intent(itemView.getContext(),Frag_map.class);
+                                        //itemView.getContext().startActivity(intent);
+
+
 
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
 
                                 }
+
+
                             }else{
                                 Log.d("test","실패");
                             }
@@ -189,7 +208,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d("stat", "DocumentSnapshot successfully deleted!");
-                                    Frag_list frag_list = new Frag_list();
 
                                 }
                             })
@@ -221,10 +239,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         convertcom convertcom = new convertcom();
                         String fcom = convertcom.convertcompany(com);
 
-                        //intent.putExtra("com",fcom);
-                        //intent.putExtra("num",num);
-
-                        //view.getContext().startActivity(intent);
                         String url = "https://tracker.delivery/#/" + fcom + "/" + num;
 
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

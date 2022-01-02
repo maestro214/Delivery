@@ -17,7 +17,7 @@
         android:id="@+id/action_acoount"
         android:enabled="true"
         android:icon="@drawable/ic_account"
-        android:title="나의당근"/>
+        android:title="마이페이지"/>
 
 
 

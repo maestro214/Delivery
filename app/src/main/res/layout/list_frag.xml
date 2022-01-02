@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#DBE8F6">
+
+    >
 
 
     <TextView
@@ -12,11 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:layout_marginTop="0dp"
-        android:background="#B7CEE6"
+        android:background="#66B2ED"
         android:gravity="center"
         android:text="내 택배 리스트"
-        android:textColor="#ffffff"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,8 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="314dp"
         android:layout_marginEnd="42dp"
-        android:backgroundTint="#4682C2"
+        android:backgroundTint="#77B9EC"
         android:src="@drawable/ic_edit"
+        app:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_recyclerview"

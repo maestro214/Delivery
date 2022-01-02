@@ -5,16 +5,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#B7CEE6">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="   마이페이지"
-        android:textStyle="bold"
-        android:textSize="26sp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:text="MyPage"
+        android:layout_marginLeft="20dp"
+        android:textSize="23sp"
+        android:textColor="@color/black"
         android:background="@color/white"/>
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -22,21 +27,35 @@
         android:background="@color/white"
         android:layout_marginTop="3dp">
 
-        <TextView
-            android:id="@+id/my_nickname"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="닉네임"
-            android:textSize="23sp"
-            android:layout_marginTop="14dp"
-            android:layout_marginLeft="8dp"/>
-
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/my_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="닉네임"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:layout_marginTop="14dp"
+                android:layout_marginLeft="19dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="님 환영합니다"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="2dp"
+                android:textSize="13sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/my_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="이메일 주소"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="29dp"
             android:layout_marginTop="4dp"/>
 
     </LinearLayout>
@@ -44,7 +63,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="@color/white"
         android:orientation="vertical">
 

@@ -2,43 +2,27 @@ package com.example.delivery.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.delivery.CustomDialog;
-import com.example.delivery.FirebaseID;
-import com.example.delivery.Frag_map;
-import com.example.delivery.PostAdapterClickListener;
+import com.example.delivery.CustomDialog_map;
 import com.example.delivery.R;
+import com.example.delivery.convertcom.convertcom;
 import com.example.delivery.convertcom.convertloc;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
-import com.example.delivery.convertcom.convertcom;
 import com.example.delivery.retrofit.ApiService;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,26 +34,32 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostViewHolder> {
 
     private List<Post> datas;
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private OnItemClickListener mListener = null ;
-    private PostAdapterClickListener postAdapterClickListener;
-    private NaverMap naverMap;
+    public CustomDialogListener_map customDialogListener_map ;
+    CustomDialog_map dialog;
+
+    public interface CustomDialogListener_map {
+        void itemView(ArrayList<LatLng> pointlist);
+    }
 
 
 
-    public void transaction(){
 
-        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction;
-        Frag_map frag_map = new Frag_map();
-        fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.main_frame, frag_map);
-        fragmentTransaction.commit();
+    public void setDialogListener(CustomDialogListener_map customDialogListener_map){ this.customDialogListener_map = customDialogListener_map; }
+
+    public PostAdapter_map(Context context){
+        this.context = context;
+    }
+
+
+    public PostAdapter_map(CustomDialog_map dialog){
+        this.dialog = dialog;
     }
 
 
@@ -84,7 +74,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
 
-    public PostAdapter(Context context,List<Post> datas) {
+    public PostAdapter_map(Context context, List<Post> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -92,7 +82,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent,false));
+        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_map,parent,false));
 
 
 
@@ -121,26 +111,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private TextView listId;
         private TextView company;
         private TextView number;
-        private WebView webview;
-        private Button btn_addmap,btn_delete;
         private String carrier;
         private String track_id;
+
 
 
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.item_post_title);
-            listId = itemView.findViewById(R.id.listId);
-            company = itemView.findViewById(R.id.item_post_company);
-            number = itemView.findViewById(R.id.item_post_number);
-            btn_addmap = itemView.findViewById(R.id.btn_addmap);
-            btn_delete = itemView.findViewById(R.id.btn_delete);
+            title = itemView.findViewById(R.id.item_post_title_map);
+            listId = itemView.findViewById(R.id.listId_map);
+            company = itemView.findViewById(R.id.item_post_company_map);
+            number = itemView.findViewById(R.id.item_post_number_map);
 
-            btn_addmap.setOnClickListener(new View.OnClickListener() {
+
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+
                     carrier = company.getText().toString();
                     track_id = number.getText().toString();
                     convertcom convertcom = new convertcom();
@@ -148,7 +139,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
 
-                    List<LatLng> pointlist = new ArrayList<>();
+                    ArrayList<LatLng> pointlist = new ArrayList<>();
 
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("https://apis.tracker.delivery/")
@@ -175,7 +166,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                     convertloc convertloc = new convertloc();
                                     locationname = convertloc.convertlocation(locationname);
 
-                                    Geocoder geocoder = new Geocoder(v.getContext().getApplicationContext());
+                                    Geocoder geocoder = new Geocoder(view.getContext().getApplicationContext());
                                     List<Address> list = null;
 
                                     LatLng xy = null;
@@ -187,20 +178,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                                         pointlist.add(xy);
 
-                                        Frag_map frag_map = new Frag_map();
-                                        frag_map.setPoint(btn_addmap.getContext(), pointlist);
-                                        //Intent intent =new Intent(itemView.getContext(),Frag_map.class);
-                                        //itemView.getContext().startActivity(intent);
-//                                      transaction();
 
 
+
+//                                        CustomDialog_map customDialog_map = new CustomDialog_map(view.getContext());
+//                                        customDialog_map.dismiss();
 
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
 
-                                }
 
+                                }
+//                                System.out.println(pointlist.toString());
+                                customDialogListener_map.itemView(pointlist);
 
                             }else{
                                 Log.d("test","실패");
@@ -212,55 +203,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         }
                     });
                 }
-            });
 
-            btn_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    mStore.collection(FirebaseID.post).document(listId.getText().toString())
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("stat", "DocumentSnapshot successfully deleted!");
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("stat", "Error deleting document", e);
-                                }
-                            });
-                    datas.remove(getBindingAdapterPosition());
-                    notifyItemRemoved(getBindingAdapterPosition());
-                    notifyDataSetChanged();
-                }
-            });
-
-
-
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        // 데이터 리스트로부터 아이템 데이터 참조.
-                        String com = company.getText().toString();
-                        String num = number.getText().toString();
-
-                        convertcom convertcom = new convertcom();
-                        String fcom = convertcom.convertcompany(com);
-
-                        String url = "https://tracker.delivery/#/" + fcom + "/" + num;
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        view.getContext().startActivity(intent);
-                    }
-                }
             });
         }
     }

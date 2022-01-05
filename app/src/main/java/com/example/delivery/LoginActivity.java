@@ -71,7 +71,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         System.out.println(nickname);
                         if(user!= null) {
                             Toast.makeText(LoginActivity.this, "자동 로그인 :  " + nickname+"님 환영합니다", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
 
                     }
                 }
@@ -101,7 +103,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if(user != null) {
                                         Toast.makeText(LoginActivity.this, "로그인 성공:" + user.getUid(), Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
 
                                     }
                                 }else{

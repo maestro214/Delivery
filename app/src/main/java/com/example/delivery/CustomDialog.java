@@ -43,6 +43,7 @@ public class CustomDialog  extends Dialog {
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

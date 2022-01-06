@@ -104,15 +104,18 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                 customDialog_map.show();
 
 
-                PostAdapter_map postAdapter_map = new PostAdapter_map(getContext());
-                postAdapter_map.setDialogListener(new PostAdapter_map.CustomDialogListener_map() {
+                PostAdapter_map postAdapter_map = new PostAdapter_map( new PostAdapter_map.CustomDialogListener_map() {
                     @Override
-                    public void itemView(ArrayList<LatLng> pointlist) {
-                        Toast.makeText(getContext(),pointlist.toString(),Toast.LENGTH_SHORT).show();
+                    public void itemViewclick(String i) {
+
+
 
                     }
                 });
+
             }
+
+
 
         });
 

@@ -45,17 +45,14 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
     CustomDialog_map dialog;
 
     public interface CustomDialogListener_map {
-        void itemView(ArrayList<LatLng> pointlist);
+        void itemViewclick(String i);
+
     }
 
+    public PostAdapter_map(CustomDialogListener_map customDialogListener_map){
 
+        this.customDialogListener_map = customDialogListener_map; }
 
-
-    public void setDialogListener(CustomDialogListener_map customDialogListener_map){ this.customDialogListener_map = customDialogListener_map; }
-
-    public PostAdapter_map(Context context){
-        this.context = context;
-    }
 
 
     public PostAdapter_map(CustomDialog_map dialog){
@@ -177,10 +174,6 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
                                         xy = new LatLng(x, y);
 
                                         pointlist.add(xy);
-
-
-
-
 //                                        CustomDialog_map customDialog_map = new CustomDialog_map(view.getContext());
 //                                        customDialog_map.dismiss();
 
@@ -190,8 +183,11 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
 
 
                                 }
-//                                System.out.println(pointlist.toString());
-                                customDialogListener_map.itemView(pointlist);
+
+                                String i = "hi";
+
+                                System.out.println(pointlist.toString());
+                                customDialogListener_map.itemViewclick(i);
 
                             }else{
                                 Log.d("test","실패");

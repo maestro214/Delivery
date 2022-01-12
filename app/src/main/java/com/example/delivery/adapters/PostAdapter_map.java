@@ -41,28 +41,28 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private OnItemClickListener mListener = null ;
-    private CustomDialogListener_map customDialogListener_map ;
+//    public CustomDialogListener_map customDialogListener_map ;
     CustomDialog_map dialog;
 
 
-    public PostAdapter_map(){}
+//    public PostAdapter_map(){}
 
     public PostAdapter_map(Context context){
         this.context = context;
     }
 
 
-    public interface CustomDialogListener_map {
-        void itemViewclick(String i);
-
-    }
-
-    public PostAdapter_map(Context context,CustomDialogListener_map customDialogListener_map){
-        this.context = context;
-        this.customDialogListener_map = customDialogListener_map; }
-
-
-
+//    public interface CustomDialogListener_map {
+//        void itemViewclick(String i);
+//
+//    }
+//
+//    public PostAdapter_map(Context context,CustomDialogListener_map customDialogListener_map){
+//        this.context = context;
+//        this.customDialogListener_map = customDialogListener_map; }
+//
+//
+//
 
 
 
@@ -195,8 +195,8 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
 
                                 }
                                 //Frag_map frag_map = new Frag_map(listId.getContext(), pointlist);
-                                String ee = "hi";
-                                customDialogListener_map.itemViewclick(ee);
+//                                String ee = "hi";
+//                                customDialogListener_map.itemViewclick(ee);
 
                             }else{
                                 Log.d("test","실패");

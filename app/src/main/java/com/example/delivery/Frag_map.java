@@ -89,12 +89,12 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
         mPostRecyclerView = view.findViewById(R.id.main_recyclerview_map);
 
 
-        PostAdapter_map postAdapter_map = new PostAdapter_map(getContext(), new PostAdapter_map.CustomDialogListener_map() {
-            @Override
-            public void itemViewclick(String i) {
-                System.out.println(i);
-            }
-        });
+//        PostAdapter_map postAdapter_map = new PostAdapter_map(getContext(), new PostAdapter_map.CustomDialogListener_map() {
+//            @Override
+//            public void itemViewclick(String i) {
+//                System.out.println(i);
+//            }
+//        });
 
 
 

@@ -63,7 +63,6 @@ public class Frag_list extends Fragment {
             public void onClick(View view) {
 
                 CustomDialog octDialog = new CustomDialog(getContext());
-
                 octDialog.setCanceledOnTouchOutside(true);
                 octDialog.setCancelable(true);
                 octDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);

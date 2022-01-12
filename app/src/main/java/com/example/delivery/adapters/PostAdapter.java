@@ -62,15 +62,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
 
-    public void transaction(){
-
-        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction;
-        Frag_map frag_map = new Frag_map();
-        fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.main_frame, frag_map);
-        fragmentTransaction.commit();
-    }
 
 
 
@@ -121,6 +112,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private TextView listId;
         private TextView company;
         private TextView number;
+        private TextView btn_x;
         private WebView webview;
         private Button btn_addmap,btn_delete;
         private String carrier;
@@ -137,6 +129,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             number = itemView.findViewById(R.id.item_post_number);
             btn_addmap = itemView.findViewById(R.id.btn_addmap);
             btn_delete = itemView.findViewById(R.id.btn_delete);
+            btn_x = itemView.findViewById(R.id.btn_x);
 
             btn_addmap.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -187,8 +180,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                                         pointlist.add(xy);
 
-                                        Frag_map frag_map = new Frag_map();
-                                        frag_map.setPoint(btn_addmap.getContext(), pointlist);
+
+
                                         //Intent intent =new Intent(itemView.getContext(),Frag_map.class);
                                         //itemView.getContext().startActivity(intent);
 //                                      transaction();
@@ -202,6 +195,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 }
 
 
+                                Frag_map frag_map = new Frag_map(btn_addmap.getContext(), pointlist);
                             }else{
                                 Log.d("test","실패");
                             }
@@ -211,6 +205,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             Log.d("test","onresponse: 실패 ");
                         }
                     });
+                }
+            });
+
+            btn_x.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    mStore.collection(FirebaseID.post).document(listId.getText().toString())
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("stat", "DocumentSnapshot successfully deleted!");
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("stat", "Error deleting document", e);
+                                }
+                            });
+                    datas.remove(getBindingAdapterPosition());
+                    notifyItemRemoved(getBindingAdapterPosition());
+                    notifyDataSetChanged();
+
                 }
             });
 

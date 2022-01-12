@@ -60,30 +60,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FirebaseUser user = mAuth.getCurrentUser();
 
 
+        if(mAuth.getCurrentUser()==null){
 
-        mStore.collection("user").whereEqualTo("documentId",user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> str = document.getData();
-                        String nickname = String.valueOf(str.get(FirebaseID.nickname));
-                        System.out.println(nickname);
-                        if(user!= null) {
-                            Toast.makeText(LoginActivity.this, "자동 로그인 :  " + nickname+"님 환영합니다", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+        }else {
+
+
+            mStore.collection("user").whereEqualTo("documentId", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> str = document.getData();
+                            String nickname = String.valueOf(str.get(FirebaseID.nickname));
+                            System.out.println(nickname);
+                            if (user != null) {
+                                Toast.makeText(LoginActivity.this, "자동 로그인 :  " + nickname + "님 환영합니다", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+
+                            }
+                        }
 
                     }
                 }
 
-            }
+
+            });
         }
-
-
-
-        });
         }
     }
 

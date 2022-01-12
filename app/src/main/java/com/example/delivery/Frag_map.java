@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +36,6 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 
 import java.io.IOException;
-import java.security.AllPermission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,27 +53,53 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
     private List<Post> mDatas;
 
 
-    public void setPoint(Context context,List pointlist) {
+
+
+    public Frag_map(Context context, List pointlist) {
         this.point = pointlist;
         this.context = context;
-        System.out.println(point);
-        if (point != null) {
-            for (int i = 0; i < point.size(); i++) {
-                LatLng xy = point.get(i);
 
-                Marker marker1 = new Marker();
-                marker1.setPosition(xy);
-                marker1.setMap(naverMap);
+        if(point.size()==pointlist.size()) {
+            System.out.println(point.toString());
+        }
+        else{
+            if (point != null) {
+                for (int i = 0; i < point.size(); i++) {
+                    LatLng xy = point.get(i);
 
+                    Marker marker1 = new Marker();
+                    marker1.setPosition(xy);
+                    marker1.setMap(naverMap);
+
+                }
             }
+
         }
     }
+
+    public Frag_map() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.map_frag,container,false);
 
         mPostRecyclerView = view.findViewById(R.id.main_recyclerview_map);
+
+
+        PostAdapter_map postAdapter_map = new PostAdapter_map(getContext(), new PostAdapter_map.CustomDialogListener_map() {
+            @Override
+            public void itemViewclick(String i) {
+                System.out.println(i);
+            }
+        });
+
+
+
+
+
         view.findViewById(R.id.btn_mapadd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,14 +128,6 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                 customDialog_map.show();
 
 
-                PostAdapter_map postAdapter_map = new PostAdapter_map( new PostAdapter_map.CustomDialogListener_map() {
-                    @Override
-                    public void itemViewclick(String i) {
-
-
-
-                    }
-                });
 
             }
 
@@ -138,6 +154,7 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
         FirebaseUser user = mAuth.getCurrentUser();
         String id2 = user.getUid();
         Context context;
+
 
 
 

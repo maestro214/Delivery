@@ -41,17 +41,29 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private OnItemClickListener mListener = null ;
-    public CustomDialogListener_map customDialogListener_map ;
+    private CustomDialogListener_map customDialogListener_map ;
     CustomDialog_map dialog;
+
+
+    public PostAdapter_map(){}
+
+    public PostAdapter_map(Context context){
+        this.context = context;
+    }
+
 
     public interface CustomDialogListener_map {
         void itemViewclick(String i);
 
     }
 
-    public PostAdapter_map(CustomDialogListener_map customDialogListener_map){
-
+    public PostAdapter_map(Context context,CustomDialogListener_map customDialogListener_map){
+        this.context = context;
         this.customDialogListener_map = customDialogListener_map; }
+
+
+
+
 
 
 
@@ -79,8 +91,7 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_map,parent,false));
-
+        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_map, parent, false));
 
 
 
@@ -183,11 +194,9 @@ public class PostAdapter_map extends RecyclerView.Adapter<PostAdapter_map.PostVi
 
 
                                 }
-
-                                String i = "hi";
-
-                                System.out.println(pointlist.toString());
-                                customDialogListener_map.itemViewclick(i);
+                                //Frag_map frag_map = new Frag_map(listId.getContext(), pointlist);
+                                String ee = "hi";
+                                customDialogListener_map.itemViewclick(ee);
 
                             }else{
                                 Log.d("test","실패");

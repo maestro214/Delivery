@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,13 +42,10 @@ public class CustomDialog_map extends Dialog {
     private PostAdapter_map mAdapter;
     private List<Post> mDatas;
 
+
     interface CustomDialogClickListener_map {
         void itemView(List<LatLng> pointlist);
     }
-
-
-    PostAdapter_map adapter_map = new PostAdapter_map(CustomDialog_map.this);
-
 
     public CustomDialog_map(@NonNull Context context) {
         super(context);
@@ -55,6 +54,7 @@ public class CustomDialog_map extends Dialog {
     }
 
 
+    PostAdapter_map adapter_map = new PostAdapter_map(CustomDialog_map.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

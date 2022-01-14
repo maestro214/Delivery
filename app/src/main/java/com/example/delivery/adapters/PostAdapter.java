@@ -99,7 +99,56 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.number.setText(data.getNumber());
 
 
+
+
+        convertcom convertcom = new convertcom();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://apis.tracker.delivery/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiService service = retrofit.create(ApiService.class);
+
+        Call<ApiData> call = service.getPosts(convertcom.convertcompany(data.getCompany()),data.getNumber());
+
+        call.enqueue(new Callback<ApiData>() {
+            @Override
+            public void onResponse(Call<ApiData> call, Response<ApiData> response) {
+                if (response.isSuccessful()) {
+
+                    ApiData apiData = response.body();
+
+                        String deliverystate = apiData.getState().getText().toString();
+//                        holder.state.setText(deliverystate);
+                    if(deliverystate.equals("배송완료")){
+                        holder.state.setText("");
+                        holder.state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.complete,0,0,0);
+
+
+                    }else if(deliverystate.equals("배달완료")) {
+                        holder.state.setText("");
+                        holder.state.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.complete,0,0,0);
+
+                    }else if(deliverystate.equals("배달중")){
+                        holder.state.setText("배송중");
+
+                    }else if(deliverystate.equals("배송중")){
+                        holder.state.setText("배송중");
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiData> call, Throwable t) {
+                holder.state.setText("배송중");
+
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -113,6 +162,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private TextView company;
         private TextView number;
         private TextView btn_x;
+        private TextView state;
         private WebView webview;
         private Button btn_addmap,btn_delete;
         private String carrier;
@@ -127,86 +177,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             listId = itemView.findViewById(R.id.listId);
             company = itemView.findViewById(R.id.item_post_company);
             number = itemView.findViewById(R.id.item_post_number);
-            btn_addmap = itemView.findViewById(R.id.btn_addmap);
-            btn_delete = itemView.findViewById(R.id.btn_delete);
+            state = itemView.findViewById(R.id.state);
+
+
             btn_x = itemView.findViewById(R.id.btn_x);
 
-            btn_addmap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    carrier = company.getText().toString();
-                    track_id = number.getText().toString();
-                    convertcom convertcom = new convertcom();
-                    String carrier_id = convertcom.convertcompany(carrier);
 
-
-
-                    List<LatLng> pointlist = new ArrayList<>();
-
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://apis.tracker.delivery/")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-
-                    ApiService service = retrofit.create(ApiService.class);
-
-                    Call<ApiData> call = service.getPosts(carrier_id,track_id);
-
-                    call.enqueue(new Callback<ApiData>() {
-                        @Override
-                        public void onResponse(Call<ApiData> call, Response<ApiData> response) {
-                            if(response.isSuccessful()){
-
-                                ApiData apiData = response.body();
-                                int test = apiData.getProgresses().size();
-
-                                for(int i = 0; i < test; i++) {
-
-
-                                    String locationname = apiData.getProgresses().get(i).getLocation().toString();
-
-                                    convertloc convertloc = new convertloc();
-                                    locationname = convertloc.convertlocation(locationname);
-
-                                    Geocoder geocoder = new Geocoder(v.getContext().getApplicationContext());
-                                    List<Address> list = null;
-
-                                    LatLng xy = null;
-                                    try {
-                                        list = geocoder.getFromLocationName(locationname, 10);
-                                        double x = list.get(0).getLatitude();
-                                        double y = list.get(0).getLongitude();
-                                        xy = new LatLng(x, y);
-
-                                        pointlist.add(xy);
-
-
-
-                                        //Intent intent =new Intent(itemView.getContext(),Frag_map.class);
-                                        //itemView.getContext().startActivity(intent);
-//                                      transaction();
-
-
-
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-
-
-                                Frag_map frag_map = new Frag_map(btn_addmap.getContext(), pointlist);
-                            }else{
-                                Log.d("test","실패");
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<ApiData> call, Throwable t) {
-                            Log.d("test","onresponse: 실패 ");
-                        }
-                    });
-                }
-            });
 
             btn_x.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -233,32 +209,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                 }
             });
-
-            btn_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    mStore.collection(FirebaseID.post).document(listId.getText().toString())
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("stat", "DocumentSnapshot successfully deleted!");
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("stat", "Error deleting document", e);
-                                }
-                            });
-                    datas.remove(getBindingAdapterPosition());
-                    notifyItemRemoved(getBindingAdapterPosition());
-                    notifyDataSetChanged();
-                }
-            });
-
 
 
 

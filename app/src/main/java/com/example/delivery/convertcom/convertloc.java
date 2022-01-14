@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class convertloc {
     public static String convertlocation(String locationname){
         switch (locationname){
+            //cj대한통운
             case "인천남수" : locationname = "인천 미추홀구 경원대로 857";
                 break;
 
@@ -26,8 +27,29 @@ public class convertloc {
             case "기흥A" : locationname = "경기 용인시 기흥구 용구대로2325번길 14";
                 break;
 
-            case "중동집배점" : locationname = "인천 계양구 서운산업로 16-4";
+            case "옥천HUB" : locationname = "충청북도 옥천군 이원면 건진2길 65";
                 break;
+
+            case "광진B" : locationname = "경기도 구리시 벌말로 95";
+                break;
+
+
+                //우체국
+            case "서울광진우체국" : locationname = "서울 광진구 강변역로 2";
+                break;
+
+            case "동서울물류센터" : locationname = "서울 광진구 자양로 76 동서울우편집중국청사";
+                break;
+
+            case "중부권광역우편물류센터" : locationname = "대전광역시 동구 안골로 11";
+                break;
+
+            case "고양덕양우체국" : locationname = "경기 고양시 덕양구 백양로 132";
+                break;
+
+
+
+
         }
         return locationname;
     }

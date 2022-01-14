@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:orientation="vertical"
         android:background="@drawable/selector_view">
 
@@ -35,6 +35,12 @@
                     tools:text="TITLE"/>
 
                 <TextView
+                    android:id="@+id/state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"/>
+
+                <TextView
                     android:id="@+id/btn_x"
                     android:layout_width="40dp"
                     android:layout_height="45dp"
@@ -50,7 +56,7 @@
             <TextView
                 android:id="@+id/listId"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="20dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
                 android:textSize="1sp"
@@ -87,31 +93,31 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <Button
-                android:id="@+id/btn_addmap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#E7F0FA"
-                android:text="지도 보기"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:backgroundTint="#E7F0FA"
-                android:textColor="@color/black"
-                android:text="삭제"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
+<!--            <Button-->
+<!--                android:id="@+id/btn_addmap"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:backgroundTint="#E7F0FA"-->
+<!--                android:text="지도 보기"-->
+<!--                android:textColor="#000000"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_weight="1"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/btn_delete"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="30dp"-->
+<!--                android:backgroundTint="#E7F0FA"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:text="삭제"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_weight="1"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 

@@ -6,8 +6,7 @@ import java.util.List;
 public class ApiData {
     public List<Progresses> progresses = new ArrayList<>();
     public List<Progresses> getProgresses() { return progresses; }
-    @Override
-    public String toString() { return "Progresses{" + "progresses=" + progresses + '}'; }
+
     public class Progresses{
         public Location location;
         public Location getLocation() {return location;}
@@ -20,6 +19,33 @@ public class ApiData {
             @Override
             public String toString() { return name; }
         }
+    }
+
+
+    public State state;
+    public State getState() { return state; }
+
+    @Override
+    public String toString() {
+        return "ApiData{" +
+                "state=" + state +
+                '}';
+    }
+
+    public class State{
+        public String text;
+
+        @Override
+        public String toString() {
+            return "State{" +
+                    "text='" + text + '\'' +
+                    '}';
+        }
+
+        public String getText() {
+            return text;
+        }
+
     }
 }
 

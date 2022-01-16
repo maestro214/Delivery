@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,9 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.MultipartPathOverlay;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.overlay.PathOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +48,9 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private NaverMap naverMap;
-    private List<LatLng> point = new ArrayList();
+    private PathOverlay path;
+    private MultipartPathOverlay multipartPath;
+    private List<LatLng> point;
     private Context context;
 
     private RecyclerView mPostRecyclerView;
@@ -55,27 +60,27 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
 
 
 
-    public Frag_map(Context context, List pointlist) {
-        this.point = pointlist;
-        this.context = context;
-
-        if(point.size()==pointlist.size()) {
-            System.out.println(point.toString());
-        }
-        else{
-            if (point != null) {
-                for (int i = 0; i < point.size(); i++) {
-                    LatLng xy = point.get(i);
-
-                    Marker marker1 = new Marker();
-                    marker1.setPosition(xy);
-                    marker1.setMap(naverMap);
-
-                }
-            }
-
-        }
-    }
+//    public Frag_map(Context context, List pointlist) {
+//        this.point = pointlist;
+//        this.context = context;
+//
+//        if(point.size()==pointlist.size()) {
+//            System.out.println(point.toString());
+//        }
+//        else{
+//            if (point != null) {
+//                for (int i = 0; i < point.size(); i++) {
+//                    LatLng xy = point.get(i);
+//
+//                    Marker marker1 = new Marker();
+//                    marker1.setPosition(xy);
+//                    marker1.setMap(naverMap);
+//
+//                }
+//            }
+//
+//        }
+//    }
 
     public Frag_map() {
 
@@ -97,6 +102,19 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
         });
 
 
+        view.findViewById(R.id.btn_fake).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point = new ArrayList<>();
+                point.add(new LatLng(37.5269675,126.7573928));
+                point.add(new LatLng(37.2949948, 127.10805289999999));
+                point.add(new LatLng(37.3308523, 126.9375047));
+                point.add(new LatLng(37.5775499, 126.88286919999999));
+                Toast.makeText(view.getContext(), point.getClass().toString(), Toast.LENGTH_SHORT).show();
+                path.setCoords(point);
+                path.setMap(naverMap);
+            }
+        });
 
 
 

@@ -43,18 +43,23 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_mapadd"
-            android:layout_width="259dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fabSize="normal"
             android:layout_marginStart="314dp"
-            android:layout_marginEnd="42dp"
-            android:backgroundTint="#4682C2"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-
+            android:backgroundTint="#77B9EC"
+            android:src="@drawable/ic_baseline_local_shipping_24"
+            app:tint="@android:color/white"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="80dp"/>
+            android:layout_marginBottom="70dp"/>
 
+        <Button
+            android:id="@+id/btn_fake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="70dp"
+            android:text="버튼" />
 
 
 </RelativeLayout>

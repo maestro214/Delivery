@@ -1,12 +1,11 @@
 package com.example.delivery;
 
-import static com.naver.maps.map.NaverMap.MapType.*;
+import static com.naver.maps.map.NaverMap.MapType.Navi;
 
 import android.content.Context;
 import android.location.Address;
-import android.os.Bundle;
-
 import android.location.Geocoder;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.delivery.adapters.PostAdapter_map;
+import com.example.delivery.adapters.PostOnMapAdapter;
 import com.example.delivery.models.Post;
+import com.example.delivery.usecase.GeocoderHelper;
+import com.example.delivery.usecase.GetDeliveryProgressUseCase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Frag_map extends Fragment implements OnMapReadyCallback {
+public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, GetDeliveryProgressUseCase.Listener, PostOnMapAdapter.ItemClickListener {
 
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -49,20 +50,16 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
     private Context context;
 
     private RecyclerView mPostRecyclerView;
-//    private PostAdapter_map mAdapter;
     private List<Post> mDatas;
 
 
-
-
-    public Frag_map(Context context, List pointlist) {
+    public PostOnMapFragment(Context context, List pointlist) {
         this.point = pointlist;
         this.context = context;
 
-        if(point.size()==pointlist.size()) {
+        if (point.size() == pointlist.size()) {
             System.out.println(point.toString());
-        }
-        else{
+        } else {
             if (point != null) {
                 for (int i = 0; i < point.size(); i++) {
                     LatLng xy = point.get(i);
@@ -77,28 +74,14 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public Frag_map() {
+    public PostOnMapFragment() {
 
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.map_frag,container,false);
-
-        mPostRecyclerView = view.findViewById(R.id.main_recyclerview_map);
-
-
-        PostAdapter_map postAdapter_map = new PostAdapter_map(getContext(), new PostAdapter_map.CustomDialogListener_map() {
-            @Override
-            public void itemViewclick(String i) {
-                System.out.println(i);
-            }
-        });
-
-
-
-
+        View view = inflater.inflate(R.layout.map_frag, container, false);
 
         view.findViewById(R.id.btn_mapadd).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +103,7 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
 //
 //
 
-                CustomDialog_map customDialog_map = new CustomDialog_map(getContext());
+                DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(getContext(), PostOnMapFragment.this);
 
                 customDialog_map.setCanceledOnTouchOutside(true);
                 customDialog_map.setCancelable(true);
@@ -128,9 +111,7 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                 customDialog_map.show();
 
 
-
             }
-
 
 
         });
@@ -148,27 +129,51 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(@NonNull NaverMap naverMap ) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupRecyclerView();
+    }
 
-        this.naverMap =naverMap;
+    private GetDeliveryProgressUseCase getDeliveryProgressUseCase;
+
+    private void setupRecyclerView() {
+        getDeliveryProgressUseCase = new GetDeliveryProgressUseCase(
+            new GeocoderHelper(requireContext())
+        );
+
+        mPostRecyclerView = requireView().findViewById(R.id.main_recyclerview_map);
+        PostOnMapAdapter postOnMapAdapter = new PostOnMapAdapter(null, this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getDeliveryProgressUseCase.addListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getDeliveryProgressUseCase.remoteListener(this);
+    }
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+
+        this.naverMap = naverMap;
         FirebaseUser user = mAuth.getCurrentUser();
         String id2 = user.getUid();
         Context context;
 
 
-
-
-
-
-
-        mStore.collection("user").whereEqualTo("documentId",id2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        mStore.collection("user").whereEqualTo("documentId", id2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : task.getResult()){
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> str = document.getData();
                         String address = String.valueOf(str.get(FirebaseID.address));
-                        Geocoder geocoder = new Geocoder((AppCompatActivity)getContext());
+                        Geocoder geocoder = new Geocoder((AppCompatActivity) getContext());
                         List<Address> list = null;
 
                         LatLng xy = null;
@@ -194,21 +199,32 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                         CameraPosition cameraPosition = new CameraPosition(new LatLng(36.659812305882014, 127.72590), 6, 0, 0);
                         naverMap.setCameraPosition(cameraPosition);
                     }
-                }else {
+                } else {
 
                 }
             }
         });
 
 
+    }
 
+    // region GetDeliveryProgress.Listener implementation
+    @Override
+    public void onDeliveryProgressFailure(Exception e) {
 
+    }
 
-                    }
+    @Override
+    public void onDeliveryProgressFetched(List<LatLng> locations) {
 
+    }
+    // endregion GetDeliveryProgress.Listener implementation
 
-
-        }
+    @Override
+    public void onPostOnMapClicked(Post post) {
+        getDeliveryProgressUseCase.fetch(post);
+    }
+}
 
 
 

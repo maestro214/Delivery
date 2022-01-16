@@ -3,58 +3,47 @@ package com.example.delivery;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.delivery.adapters.PostAdapter;
-import com.example.delivery.adapters.PostAdapter_map;
+import com.example.delivery.adapters.PostOnMapAdapter;
 import com.example.delivery.models.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomDialog_map extends Dialog {
+public class DeliverySelectionDialog extends Dialog {
 
     private Context context;
-    private CustomDialogClickListener_map customDialogClickListener_map;
+    private DeliverySelectionListener mListener;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private RecyclerView mPostRecyclerView;
-    private PostAdapter_map mAdapter;
+    private PostOnMapAdapter mAdapter;
+    private final PostOnMapAdapter.ItemClickListener mItemClickListener;
     private List<Post> mDatas;
 
-
-    interface CustomDialogClickListener_map {
+    interface DeliverySelectionListener {
         void itemView(List<LatLng> pointlist);
     }
 
-    public CustomDialog_map(@NonNull Context context) {
+    public DeliverySelectionDialog(@NonNull Context context, PostOnMapAdapter.ItemClickListener listener) {
         super(context);
         this.context = context;
-        this.customDialogClickListener_map = customDialogClickListener_map;
+        this.mItemClickListener = listener;
     }
-
-
-    PostAdapter_map adapter_map = new PostAdapter_map(CustomDialog_map.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +73,18 @@ public class CustomDialog_map extends Dialog {
                                 mDatas.add(data);
 
                             }
-                            mAdapter = new PostAdapter_map(getContext(),mDatas);
-                            //Log.d("mDatas",mDatas.toString());
+
+                            mAdapter = new PostOnMapAdapter(mDatas, new PostOnMapAdapter.ItemClickListener() {
+                                @Override
+                                public void onPostOnMapClicked(Post post) {
+                                    dismiss();
+                                    mItemClickListener.onPostOnMapClicked(post);
+                                }
+                            });
                             mPostRecyclerView.setAdapter(mAdapter);
                         }
                     }
                 });
 
-
-
     }
-
-
 }

@@ -3,8 +3,6 @@ package com.example.delivery.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,33 +13,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.delivery.CustomDialog;
 import com.example.delivery.FirebaseID;
-import com.example.delivery.Frag_map;
 import com.example.delivery.PostAdapterClickListener;
 import com.example.delivery.R;
-import com.example.delivery.convertcom.convertloc;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.convertcom.convertcom;
 import com.example.delivery.retrofit.ApiService;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

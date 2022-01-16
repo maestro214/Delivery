@@ -8,11 +8,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.MapFragment;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.overlay.Marker;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -59,7 +54,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     case R.id.action_map:
                         if (fb == null) {
-                            fb = new Frag_map();
+                            fb = new PostOnMapFragment();
                             getSupportFragmentManager().beginTransaction().add(R.id.main_frame, fb).commit();
                         }
                         if (fa != null)

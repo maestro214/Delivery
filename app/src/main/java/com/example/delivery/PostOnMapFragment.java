@@ -211,12 +211,12 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
     // region GetDeliveryProgress.Listener implementation
     @Override
     public void onDeliveryProgressFailure(Exception e) {
-
+        // TODO : 여기에 필요한 처리
     }
 
     @Override
     public void onDeliveryProgressFetched(List<LatLng> locations) {
-
+        // TODO : 여기에 필요한 처리
     }
     // endregion GetDeliveryProgress.Listener implementation
 

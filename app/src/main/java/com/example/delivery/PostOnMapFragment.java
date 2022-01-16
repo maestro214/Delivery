@@ -42,36 +42,20 @@ import java.util.List;
 import java.util.Map;
 
 public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, GetDeliveryProgressUseCase.Listener, PostOnMapAdapter.ItemClickListener {
+    private final static String LOCATIONS = "locations";
 
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private NaverMap naverMap;
     private List<LatLng> point = new ArrayList();
-    private Context context;
-
-    private RecyclerView mPostRecyclerView;
     private List<Post> mDatas;
 
-
-    public PostOnMapFragment(Context context, List pointlist) {
-        this.point = pointlist;
-        this.context = context;
-
-        if (point.size() == pointlist.size()) {
-            System.out.println(point.toString());
-        } else {
-            if (point != null) {
-                for (int i = 0; i < point.size(); i++) {
-                    LatLng xy = point.get(i);
-
-                    Marker marker1 = new Marker();
-                    marker1.setPosition(xy);
-                    marker1.setMap(naverMap);
-
-                }
-            }
-
-        }
+    public static PostOnMapFragment newInstance(List<LatLng> locations) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(LOCATIONS, new ArrayList<>(locations));
+        PostOnMapFragment fragment = new PostOnMapFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public PostOnMapFragment() {
@@ -109,16 +93,31 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
+        setupMarkers();
+    }
+
+    private void setupMarkers() {
+        Bundle arguments = getArguments();
+        if (arguments == null) return;
+
+        List<LatLng> locations = arguments.getParcelableArrayList(LOCATIONS);
+        if (locations == null || locations.isEmpty()) return;
+
+        for (LatLng location : locations) {
+            Marker marker = new Marker();
+            marker.setPosition(location);
+            marker.setMap(naverMap);
+        }
     }
 
     private GetDeliveryProgressUseCase getDeliveryProgressUseCase;
 
     private void setupRecyclerView() {
         getDeliveryProgressUseCase = new GetDeliveryProgressUseCase(
-            new GeocoderHelper(requireContext())
+                new GeocoderHelper(requireContext())
         );
 
-        mPostRecyclerView = requireView().findViewById(R.id.main_recyclerview_map);
+        RecyclerView mPostRecyclerView = requireView().findViewById(R.id.main_recyclerview_map);
         PostOnMapAdapter postOnMapAdapter = new PostOnMapAdapter(null, this);
     }
 

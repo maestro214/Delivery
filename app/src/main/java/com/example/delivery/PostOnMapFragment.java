@@ -86,36 +86,13 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
         view.findViewById(R.id.btn_mapadd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                point.add(new LatLng(37.5269675,126.7573928));
-//                point.add(new LatLng(37.2949948, 127.10805289999999));
-//                point.add(new LatLng(37.3308523, 126.9375047));
-//                point.add(new LatLng(37.5775499, 126.88286919999999));
-//                if (point != null) {
-//                    for (int i = 0; i < point.size(); i++) {
-//                        LatLng xy = point.get(i);
-//
-//                        Marker marker1 = new Marker();
-//                        marker1.setPosition(xy);
-//                        marker1.setMap(naverMap);
-//
-//                    }
-//                }
-//
-//
-
-                DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(getContext(), PostOnMapFragment.this);
-
+                DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(requireContext(), PostOnMapFragment.this);
                 customDialog_map.setCanceledOnTouchOutside(true);
                 customDialog_map.setCancelable(true);
                 customDialog_map.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                 customDialog_map.show();
-
-
             }
-
-
         });
-
 
         MapFragment mapFragment = (MapFragment) getParentFragmentManager().findFragmentById(R.id.map);
         if (mapFragment == null) {
@@ -211,12 +188,12 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
     // region GetDeliveryProgress.Listener implementation
     @Override
     public void onDeliveryProgressFailure(Exception e) {
-        // TODO : 여기에 필요한 처리
+        // TODO : 에러시, 여기에 필요한 처리
     }
 
     @Override
     public void onDeliveryProgressFetched(List<LatLng> locations) {
-        // TODO : 여기에 필요한 처리
+        // TODO : 성공시, 여기에 필요한 처리
     }
     // endregion GetDeliveryProgress.Listener implementation
 

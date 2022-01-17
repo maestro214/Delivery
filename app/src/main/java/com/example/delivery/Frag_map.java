@@ -111,8 +111,10 @@ public class Frag_map extends Fragment implements OnMapReadyCallback {
                 point.add(new LatLng(37.3308523, 126.9375047));
                 point.add(new LatLng(37.5775499, 126.88286919999999));
                 Toast.makeText(view.getContext(), point.getClass().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "브랜치 작업", Toast.LENGTH_SHORT).show();
                 path.setCoords(point);
                 path.setMap(naverMap);
+
             }
         });
 

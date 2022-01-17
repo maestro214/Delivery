@@ -2,7 +2,6 @@ package com.example.delivery;
 
 import static com.naver.maps.map.NaverMap.MapType.Navi;
 
-import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delivery.adapters.PostOnMapAdapter;
 import com.example.delivery.models.Post;
@@ -65,7 +63,7 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.map_frag, container, false);
+        View view = inflater.inflate(R.layout.fragment_post_on_map, container, false);
 
         view.findViewById(R.id.btn_mapadd).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,9 +114,6 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
         getDeliveryProgressUseCase = new GetDeliveryProgressUseCase(
                 new GeocoderHelper(requireContext())
         );
-
-        RecyclerView mPostRecyclerView = requireView().findViewById(R.id.main_recyclerview_map);
-        PostOnMapAdapter postOnMapAdapter = new PostOnMapAdapter(null, this);
     }
 
     @Override
@@ -139,8 +134,6 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
         this.naverMap = naverMap;
         FirebaseUser user = mAuth.getCurrentUser();
         String id2 = user.getUid();
-        Context context;
-
 
         mStore.collection("user").whereEqualTo("documentId", id2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

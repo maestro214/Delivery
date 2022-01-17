@@ -1,4 +1,4 @@
-package com.example.delivery.convertcom;
+package com.example.delivery.mappers;
 
 public class AddressMapper {
     public static String mapBy(String locationName){

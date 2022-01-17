@@ -15,8 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.delivery.adapters.model.BasePostItem;
+import com.example.delivery.adapters.model.PostItem;
+import com.example.delivery.mappers.CarrierIdMapper;
 import com.example.delivery.models.Post;
 import com.example.delivery.usecase.GeocoderHelper;
+import com.example.delivery.usecase.GetDeliveryProgressRequest;
 import com.example.delivery.usecase.GetDeliveryProgressUseCase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -90,12 +94,20 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
     private void showDeliverySelectionDialog() {
         DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(
                 requireContext(),
-                post -> getDeliveryProgressUseCase.fetch(post)
+                this::fetchDeliveryProgress
         );
         customDialog_map.setCanceledOnTouchOutside(true);
         customDialog_map.setCancelable(true);
         customDialog_map.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         customDialog_map.show();
+    }
+
+    private void fetchDeliveryProgress(BasePostItem post) {
+        String trackId = post.getNumber();
+        String carrierId = CarrierIdMapper.mapBy(post.getCompany());
+        GetDeliveryProgressRequest request = new GetDeliveryProgressRequest(carrierId, trackId);
+
+        getDeliveryProgressUseCase.fetch(request);
     }
 
     @Override

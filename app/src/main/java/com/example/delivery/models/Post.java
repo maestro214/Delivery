@@ -5,6 +5,19 @@ public class Post {
     private String documentId;
     private String title;
     private String listId;
+    private String company;
+    private String number;
+
+    public Post() {
+    }
+
+    public Post(String documentId, String title, String listId, String company, String number) {
+        this.documentId = documentId;
+        this.title = title;
+        this.listId = listId;
+        this.company = company;
+        this.number = number;
+    }
 
     public String getListId() {
         return listId;
@@ -13,12 +26,6 @@ public class Post {
     public void setListId(String listId) {
         this.listId = listId;
     }
-
-    private String company;
-    private String number;
-
-
-
 
     public String getDocumentId() {
         return documentId;
@@ -51,15 +58,6 @@ public class Post {
     public void setNumber(String number) {
         this.number = number;
     }
-
-    public Post(String documentId, String title,String listId, String company, String number) {
-        this.documentId = documentId;
-        this.title = title;
-        this.listId = listId;
-        this.company = company;
-        this.number = number;
-    }
-
 
     @Override
     public String toString() {

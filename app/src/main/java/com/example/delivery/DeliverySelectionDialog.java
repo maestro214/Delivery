@@ -3,13 +3,14 @@ package com.example.delivery;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.delivery.adapters.PostOnMapAdapter;
+import com.example.delivery.adapters.PostAdapter;
+import com.example.delivery.adapters.model.BasePostItem;
+import com.example.delivery.adapters.model.PostOnMapItem;
 import com.example.delivery.models.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -18,33 +19,26 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class DeliverySelectionDialog extends Dialog {
 
     public interface Listener {
-        void onPostSelected(Post post);
+        void onPostSelected(BasePostItem post);
     }
 
-    private Context context;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private RecyclerView mPostRecyclerView;
-    private PostOnMapAdapter mAdapter;
+    private PostAdapter mAdapter;
     private final Listener mListener;
-    private List<Post> mDatas;
-
-    interface DeliverySelectionListener {
-        void itemView(List<LatLng> pointlist);
-    }
+    private final List<Post> mPosts = new ArrayList<>();
 
     public DeliverySelectionDialog(@NonNull Context context, Listener listener) {
         super(context);
-        this.context = context;
         this.mListener = listener;
     }
 
@@ -53,41 +47,48 @@ public class DeliverySelectionDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_dialog_map);
 
+        mAdapter = new PostAdapter();
+        mAdapter.setListener(new PostAdapter.Listener() {
+            @Override
+            public void onPostClicked(BasePostItem post) {
+                dismiss();
+                mListener.onPostSelected(post);
+            }
+
+            @Override
+            public void onRemovePostClicked(BasePostItem post) {
+
+            }
+        });
         mPostRecyclerView = findViewById(R.id.main_recyclerview_map);
-        mDatas = new ArrayList<>();
-        String id = mAuth.getCurrentUser().getUid();
+        mPostRecyclerView.setAdapter(mAdapter);
 
+        String uId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        fetchPostsByUId(uId);
+    }
 
+    // TODO : 데이터를 가져오는 로직을 UseCase로 옮기고 DeliverySelectionDialog를 호출하는 쪽에서는 UseCase를 사용한다.
+    // 호출하는 쪽에서 데이터를 가져와서 그 결과를 DeliverySelectionDialog에 전달한다.
+    private void fetchPostsByUId(String uId) {
         mStore.collection(FirebaseID.post).orderBy(FirebaseID.timestamp, Query.Direction.DESCENDING)
-                .whereEqualTo("documentId",id)
+                .whereEqualTo(FirebaseID.documentId, uId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                        if (queryDocumentSnapshots != null) {
-                            mDatas.clear();
-                            for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
-                                Map<String, Object> shot = snap.getData();
-                                String documentId = String.valueOf(shot.get(FirebaseID.documentId));
-                                String title = String.valueOf(shot.get(FirebaseID.title));
-                                String listId = String.valueOf(shot.get(FirebaseID.listId));
-                                String company = String.valueOf(shot.get(FirebaseID.company));
-                                String number = String.valueOf(shot.get(FirebaseID.number));
-                                Post data = new Post(documentId, title, listId, company,number);
-                                mDatas.add(data);
+                        if (queryDocumentSnapshots == null) return;
 
-                            }
-
-                            mAdapter = new PostOnMapAdapter(mDatas, new PostOnMapAdapter.ItemClickListener() {
-                                @Override
-                                public void onPostOnMapClicked(Post post) {
-                                    dismiss();
-                                    mListener.onPostSelected(post);
-                                }
-                            });
-                            mPostRecyclerView.setAdapter(mAdapter);
+                        mPosts.clear();
+                        for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
+                            Post post = snap.toObject(Post.class);
+                            mPosts.add(post);
                         }
+
+                        submitList();
                     }
                 });
+    }
 
+    private void submitList() {
+        mAdapter.submitList(PostOnMapItem.toUiItems(mPosts));
     }
 }

@@ -4,8 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.delivery.convertcom.AddressMapper;
-import com.example.delivery.convertcom.CarrierIdMapper;
+import com.example.delivery.mappers.AddressMapper;
+import com.example.delivery.mappers.CarrierIdMapper;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.retrofit.ApiService;
@@ -44,14 +44,9 @@ public class GetDeliveryProgressUseCase {
         mListeners.remove(listener);
     }
 
-    public void fetch(Post post) {
-        String carrier = post.getCompany();
-        String trackId = post.getNumber();
-
-        String carrierId = CarrierIdMapper.mapBy(carrier);
-
+    public void fetch(GetDeliveryProgressRequest request) {
         ApiService service = NetworkModule.getApiService();
-        Call<ApiData> call = service.getPosts(carrierId, trackId);
+        Call<ApiData> call = service.getPosts(request.getCarrierId(), request.getTrackId());
 
         call.enqueue(new Callback<ApiData>() {
             @Override

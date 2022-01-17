@@ -1,4 +1,4 @@
-package com.example.delivery.convertcom;
+package com.example.delivery.mappers;
 
 public class CarrierIdMapper {
     public static String mapBy(String companyName){

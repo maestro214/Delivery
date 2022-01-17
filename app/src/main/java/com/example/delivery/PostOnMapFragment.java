@@ -88,7 +88,10 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
 
     // TODO : 별도의 DialogManager 클래스를 두어서 모든 Dialog를 한곳에서 관리.
     private void showDeliverySelectionDialog() {
-        DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(requireContext(), post -> getDeliveryProgressUseCase.fetch(post));
+        DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(
+                requireContext(),
+                post -> getDeliveryProgressUseCase.fetch(post)
+        );
         customDialog_map.setCanceledOnTouchOutside(true);
         customDialog_map.setCancelable(true);
         customDialog_map.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);

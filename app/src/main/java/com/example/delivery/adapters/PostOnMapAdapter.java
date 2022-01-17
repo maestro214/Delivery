@@ -2,9 +2,6 @@ package com.example.delivery.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,24 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.delivery.R;
-import com.example.delivery.convertcom.convertcom;
-import com.example.delivery.convertcom.convertloc;
-import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
-import com.example.delivery.retrofit.ApiService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.naver.maps.geometry.LatLng;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PostOnMapAdapter extends RecyclerView.Adapter<PostOnMapAdapter.PostViewHolder> {
 

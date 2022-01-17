@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.delivery.convertcom.convertcom;
-import com.example.delivery.convertcom.convertloc;
+import com.example.delivery.convertcom.LocationMapper;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.retrofit.ApiService;
@@ -13,7 +13,6 @@ import com.example.delivery.retrofit.NetworkModule;
 import com.naver.maps.geometry.LatLng;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,8 +61,8 @@ public class GetDeliveryProgressUseCase {
             }
 
             @Override
-            public void onFailure(Call<ApiData> call, Throwable t) {
-                Log.d("test", "onresponse: 실패 ");
+            public void onFailure(@NonNull Call<ApiData> call, @NonNull Throwable t) {
+                handleError(new RuntimeException(t));
             }
         });
     }
@@ -72,13 +71,13 @@ public class GetDeliveryProgressUseCase {
         if (response.isSuccessful()) {
             handleSuccess(response);
         } else {
-            handleError(response);
+            handleError(new RuntimeException(response.message()));
         }
     }
 
-    private void handleError(Response<ApiData> response) {
+    private void handleError(Exception exception) {
         Log.d("test", "실패");
-        notifyFailure(new RuntimeException(response.message()));
+        notifyFailure(exception);
     }
 
     private void handleSuccess(@NonNull Response<ApiData> response) {
@@ -90,8 +89,7 @@ public class GetDeliveryProgressUseCase {
             for (int i = 0; i < test; i++) {
                 String locationName = apiData.getProgresses().get(i).getLocation().toString();
 
-                convertloc convertloc = new convertloc();
-                locationName = convertloc.convertlocation(locationName);
+                locationName = LocationMapper.mapBy(locationName);
 
                 List<LatLng> locations = geocoderHelper.getLocationsBy(locationName);
                 notifySuccess(locations);

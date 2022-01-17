@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.delivery.adapters.PostOnMapAdapter;
 import com.example.delivery.models.Post;
 import com.example.delivery.usecase.GeocoderHelper;
 import com.example.delivery.usecase.GetDeliveryProgressUseCase;
@@ -39,15 +38,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, GetDeliveryProgressUseCase.Listener, PostOnMapAdapter.ItemClickListener {
+public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, GetDeliveryProgressUseCase.Listener {
     private final static String LOCATIONS = "locations";
 
-    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    // TODO : 데리터를 처리하는 로직 무조건 뷰에서 분리해야 함(UI가 있는 앱에서는 거의 분문율임). 그래서 MVC, MVP, MVVM 같은 패턴을 사용할 필요해 짐.
+    private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private NaverMap naverMap;
-    private List<LatLng> point = new ArrayList();
+    private final List<LatLng> point = new ArrayList<>();
     private List<Post> mDatas;
 
+    /**
+     * Fragment는 기본 생성자만 가져야 함. 추가적인 데이터를 넘길 필요가 있다면,
+     * Bundle에 필요한 데이터를 담아서, setArguments해서 넘기고,
+     * getArguments를 이용해서 읽어와서 처리해야 함. 가장 큰 이유는 Lifecycle 때문임.
+     * 이렇게 하지 않으면, 예를 들어 디바이스를 로테이션 시키면 생성자에 넘겨줬던 데이터는 보관이 되지않으나,
+     * Bundle에 담겨진 데이터는 안드로이드가 보관을 해 줌.
+     */
     public static PostOnMapFragment newInstance(List<LatLng> locations) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(LOCATIONS, new ArrayList<>(locations));
@@ -60,21 +67,13 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
 
     }
 
+    // TODO : 코드의 간결성이나 이벤트 호출시점 등을 봤을 때, 뷰의 초기화는 onViewCreate 메소드가 조금 더 합리적임.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_on_map, container, false);
 
-        view.findViewById(R.id.btn_mapadd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(requireContext(), PostOnMapFragment.this);
-                customDialog_map.setCanceledOnTouchOutside(true);
-                customDialog_map.setCancelable(true);
-                customDialog_map.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-                customDialog_map.show();
-            }
-        });
+        view.findViewById(R.id.btn_mapadd).setOnClickListener(v -> showDeliverySelectionDialog());
 
         MapFragment mapFragment = (MapFragment) getParentFragmentManager().findFragmentById(R.id.map);
         if (mapFragment == null) {
@@ -85,6 +84,15 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
         mapFragment.getMapAsync(this);
 
         return view;
+    }
+
+    // TODO : 별도의 DialogManager 클래스를 두어서 모든 Dialog를 한곳에서 관리.
+    private void showDeliverySelectionDialog() {
+        DeliverySelectionDialog customDialog_map = new DeliverySelectionDialog(requireContext(), post -> getDeliveryProgressUseCase.fetch(post));
+        customDialog_map.setCanceledOnTouchOutside(true);
+        customDialog_map.setCancelable(true);
+        customDialog_map.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        customDialog_map.show();
     }
 
     @Override
@@ -188,11 +196,6 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
         // TODO : 성공시, 여기에 필요한 처리
     }
     // endregion GetDeliveryProgress.Listener implementation
-
-    @Override
-    public void onPostOnMapClicked(Post post) {
-        getDeliveryProgressUseCase.fetch(post);
-    }
 }
 
 

@@ -26,14 +26,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 이 클래스가 무조건 시작 액티비티가 되면 곤란 함. 사용자가 로그인 할 필요가 없을 때는
+ * 바로 메인으로 이동해야 함. 현재 로그인 화면으로 무조건 왔다가 자동로그인 시키는 흐름은 부자연스러워 보임.
+ * 로그인 액티비티에서 메인액티비티로 이동했다면, 로그인 액티비티는 닫아주어야 함.
+ */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private EditText mEmail;
     private EditText mPassword;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

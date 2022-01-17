@@ -26,23 +26,26 @@ import java.util.Map;
 
 public class DeliverySelectionDialog extends Dialog {
 
+    public interface Listener {
+        void onPostSelected(Post post);
+    }
+
     private Context context;
-    private DeliverySelectionListener mListener;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private RecyclerView mPostRecyclerView;
     private PostOnMapAdapter mAdapter;
-    private final PostOnMapAdapter.ItemClickListener mItemClickListener;
+    private final Listener mListener;
     private List<Post> mDatas;
 
     interface DeliverySelectionListener {
         void itemView(List<LatLng> pointlist);
     }
 
-    public DeliverySelectionDialog(@NonNull Context context, PostOnMapAdapter.ItemClickListener listener) {
+    public DeliverySelectionDialog(@NonNull Context context, Listener listener) {
         super(context);
         this.context = context;
-        this.mItemClickListener = listener;
+        this.mListener = listener;
     }
 
     @Override
@@ -78,7 +81,7 @@ public class DeliverySelectionDialog extends Dialog {
                                 @Override
                                 public void onPostOnMapClicked(Post post) {
                                     dismiss();
-                                    mItemClickListener.onPostOnMapClicked(post);
+                                    mListener.onPostSelected(post);
                                 }
                             });
                             mPostRecyclerView.setAdapter(mAdapter);

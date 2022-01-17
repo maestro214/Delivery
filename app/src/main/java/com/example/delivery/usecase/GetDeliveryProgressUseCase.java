@@ -4,8 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.delivery.convertcom.convertcom;
-import com.example.delivery.convertcom.LocationMapper;
+import com.example.delivery.convertcom.AddressMapper;
+import com.example.delivery.convertcom.CarrierIdMapper;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
 import com.example.delivery.retrofit.ApiService;
@@ -48,11 +48,10 @@ public class GetDeliveryProgressUseCase {
         String carrier = post.getCompany();
         String trackId = post.getNumber();
 
-        convertcom convertcom = new convertcom();
-        String carrier_id = convertcom.convertcompany(carrier);
+        String carrierId = CarrierIdMapper.mapBy(carrier);
 
         ApiService service = NetworkModule.getApiService();
-        Call<ApiData> call = service.getPosts(carrier_id, trackId);
+        Call<ApiData> call = service.getPosts(carrierId, trackId);
 
         call.enqueue(new Callback<ApiData>() {
             @Override
@@ -62,7 +61,7 @@ public class GetDeliveryProgressUseCase {
 
             @Override
             public void onFailure(@NonNull Call<ApiData> call, @NonNull Throwable t) {
-                handleError(new RuntimeException(t));
+                notifyFailure(new RuntimeException(t));
             }
         });
     }
@@ -71,13 +70,8 @@ public class GetDeliveryProgressUseCase {
         if (response.isSuccessful()) {
             handleSuccess(response);
         } else {
-            handleError(new RuntimeException(response.message()));
+            notifyFailure(new RuntimeException(response.message()));
         }
-    }
-
-    private void handleError(Exception exception) {
-        Log.d("test", "실패");
-        notifyFailure(exception);
     }
 
     private void handleSuccess(@NonNull Response<ApiData> response) {
@@ -89,7 +83,7 @@ public class GetDeliveryProgressUseCase {
             for (int i = 0; i < test; i++) {
                 String locationName = apiData.getProgresses().get(i).getLocation().toString();
 
-                locationName = LocationMapper.mapBy(locationName);
+                locationName = AddressMapper.mapBy(locationName);
 
                 List<LatLng> locations = geocoderHelper.getLocationsBy(locationName);
                 notifySuccess(locations);
@@ -106,6 +100,8 @@ public class GetDeliveryProgressUseCase {
     }
 
     private void notifyFailure(Exception e) {
+        Log.d("test", "실패");
+
         for (Listener listener : mListeners) {
             listener.onDeliveryProgressFailure(e);
         }

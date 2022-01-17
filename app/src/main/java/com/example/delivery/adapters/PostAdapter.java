@@ -20,7 +20,7 @@ import com.example.delivery.PostAdapterClickListener;
 import com.example.delivery.R;
 import com.example.delivery.models.ApiData;
 import com.example.delivery.models.Post;
-import com.example.delivery.convertcom.convertcom;
+import com.example.delivery.convertcom.CarrierIdMapper;
 import com.example.delivery.retrofit.ApiService;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,7 +87,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
 
-        convertcom convertcom = new convertcom();
+        CarrierIdMapper convertcom = new CarrierIdMapper();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://apis.tracker.delivery/")
@@ -96,7 +96,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         ApiService service = retrofit.create(ApiService.class);
 
-        Call<ApiData> call = service.getPosts(convertcom.convertcompany(data.getCompany()),data.getNumber());
+        Call<ApiData> call = service.getPosts(convertcom.mapBy(data.getCompany()),data.getNumber());
 
         call.enqueue(new Callback<ApiData>() {
             @Override
@@ -208,8 +208,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         String com = company.getText().toString();
                         String num = number.getText().toString();
 
-                        convertcom convertcom = new convertcom();
-                        String fcom = convertcom.convertcompany(com);
+                        CarrierIdMapper convertcom = new CarrierIdMapper();
+                        String fcom = convertcom.mapBy(com);
 
                         String url = "https://tracker.delivery/#/" + fcom + "/" + num;
 

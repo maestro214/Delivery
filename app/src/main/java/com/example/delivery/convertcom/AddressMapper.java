@@ -1,8 +1,6 @@
 package com.example.delivery.convertcom;
 
-import java.util.ArrayList;
-
-public class LocationMapper {
+public class AddressMapper {
     public static String mapBy(String locationName){
         switch (locationName){
             //cj대한통운

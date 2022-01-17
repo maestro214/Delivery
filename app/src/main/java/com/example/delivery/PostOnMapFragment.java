@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.delivery.adapters.model.BasePostItem;
-import com.example.delivery.adapters.model.PostItem;
 import com.example.delivery.mappers.CarrierIdMapper;
 import com.example.delivery.models.Post;
 import com.example.delivery.usecase.GeocoderHelper;
@@ -148,7 +147,7 @@ public class PostOnMapFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public void onStop() {
         super.onStop();
-        getDeliveryProgressUseCase.remoteListener(this);
+        getDeliveryProgressUseCase.removeListener(this);
     }
 
     @Override

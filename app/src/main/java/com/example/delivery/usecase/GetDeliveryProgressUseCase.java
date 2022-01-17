@@ -40,7 +40,7 @@ public class GetDeliveryProgressUseCase {
         mListeners.add(listener);
     }
 
-    public void remoteListener(Listener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 

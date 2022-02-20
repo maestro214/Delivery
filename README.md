@@ -22,15 +22,15 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 
 |                    🧐 로고                                   |                      👯 로그인/회원가입                       |                         :newspaper: 내 택배 리스트                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="" width=40%>
- | <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="선호도_입력과_리뷰_작성" width=80%> | <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="리뷰_수정" width=80%> |
+| <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="로고" width=40%>
+ | <img src="https://user-images.githubusercontent.com/48754650/154864712-11d138e7-6760-4c1c-b678-b6c15c89f353.jpg" alt="로그인" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864736-242385ca-1e64-4664-970e-5e2acb83ed2d.jpg" alt="내택배리스트" width=40%> |
 
 |                     :pencil2: 택배 리스트 추가                      |                     :truck: 배송 조회 창                      |                     :heavy_check_mark: 지도화면                      |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/52682603/138669780-9e4cfe84-8a80-409d-8055-a73f9d562b21.gif" alt="로그인(카카오_소셜_로그인)" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669758-bb5c2c92-d92e-4a08-bb73-48bc3baac7e8.gif" alt="닉네임_소개_수정" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669786-4b29f0db-569a-4fa3-ba15-7c7a656fb3c8.gif" alt="리뷰와_선호도_관리" width=80%> |
+| <img src="https://user-images.githubusercontent.com/48754650/154864756-760cfa64-accb-4f92-a56e-caa9fa89dcee.jpg" alt="택배추가" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864764-b0d8d9b4-d73e-48e2-8a67-4e272c6ac8f9.jpg" alt="배송조회창" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864773-a3dc94c7-b0eb-4b64-ac40-e149af13c2dc.jpg" alt="지도화면" width=40%> |
 
 |                      🔎 추적할 택배선택                         |                      :boy: 마이페이지                         |                          :wrench: 추가예정                          |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/52682603/138670451-5b91951d-3045-45a1-a51f-51502f489a67.gif" alt="카테고리_검색" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669733-61b71780-15f0-4328-8fbe-57e8f9e088cf.gif" alt="키워드로_검색" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669815-6821b6d2-e26c-487d-aae9-72f9aaf8bfff.gif" alt="전체보기" width=80%> |
+| <img src="https://user-images.githubusercontent.com/48754650/154864794-5d0ab2e8-793a-4660-982b-1bd519ca4b1f.jpg" alt="택배선택" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864802-57f88b1e-f5b4-4b02-bf94-253bad0487b8.jpg" alt="마이페이지" width=40%> | <img src="https://user-images.githubusercontent.com/52682603/138669815-6821b6d2-e26c-487d-aae9-72f9aaf8bfff.gif" alt="" width=40%> |
 </br>
 </br>

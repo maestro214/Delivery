@@ -20,7 +20,7 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 
 <h3>앱 구성</h3>
 
-|                         🧐 상세페이지                         |                  👩‍💻 선호도 입력과 리뷰 작성                  |                         🧑‍💻 리뷰 수정                         |
+|                    🧐 로고                                   |                      👯 로그인/회원가입                       |                         🧑 내 택배 리스트                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/52682603/138669805-3d7ee13b-cb69-4442-98a3-d51315b729bb.gif" alt="상세페이지" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669781-bcabc95b-27e5-4769-8127-4c698f3eed84.gif" alt="선호도_입력과_리뷰_작성" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669782-1ccdd80b-53f5-4d7b-b51f-68295086837d.gif" alt="리뷰_수정" width=80%> |
 

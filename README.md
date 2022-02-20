@@ -28,7 +28,7 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/52682603/138669780-9e4cfe84-8a80-409d-8055-a73f9d562b21.gif" alt="로그인(카카오_소셜_로그인)" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669758-bb5c2c92-d92e-4a08-bb73-48bc3baac7e8.gif" alt="닉네임_소개_수정" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669786-4b29f0db-569a-4fa3-ba15-7c7a656fb3c8.gif" alt="리뷰와_선호도_관리" width=80%> |
 
-|                      🔎 추적할 택배선택                         |                      :person_with_pouting_face: 마이페이지                         |                          :wrench: 추가예정                          |
+|                      🔎 추적할 택배선택                         |                      :boy: 마이페이지                         |                          :wrench: 추가예정                          |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/52682603/138670451-5b91951d-3045-45a1-a51f-51502f489a67.gif" alt="카테고리_검색" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669733-61b71780-15f0-4328-8fbe-57e8f9e088cf.gif" alt="키워드로_검색" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669815-6821b6d2-e26c-487d-aae9-72f9aaf8bfff.gif" alt="전체보기" width=80%> |
 </br>

@@ -24,11 +24,11 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/52682603/138669805-3d7ee13b-cb69-4442-98a3-d51315b729bb.gif" alt="상세페이지" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669781-bcabc95b-27e5-4769-8127-4c698f3eed84.gif" alt="선호도_입력과_리뷰_작성" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669782-1ccdd80b-53f5-4d7b-b51f-68295086837d.gif" alt="리뷰_수정" width=80%> |
 
-|                     :pencil2: 택배 리스트 추가                      |                     :truck: 배송 조회 창                      |                     :heavy_check_mark:                      |
+|                     :pencil2: 택배 리스트 추가                      |                     :truck: 배송 조회 창                      |                     :heavy_check_mark: 지도화면                      |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/52682603/138669780-9e4cfe84-8a80-409d-8055-a73f9d562b21.gif" alt="로그인(카카오_소셜_로그인)" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669758-bb5c2c92-d92e-4a08-bb73-48bc3baac7e8.gif" alt="닉네임_소개_수정" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669786-4b29f0db-569a-4fa3-ba15-7c7a656fb3c8.gif" alt="리뷰와_선호도_관리" width=80%> |
 
-|                       🍓 카테고리 검색                        |                       🔎 키워드로 검색                        |                          🥂 전체보기                          |
+|                      🔎 추적할 택배선택                         |                      :person_with_pouting_face: 마이페이지                         |                          :wrench: 추가예정                          |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/52682603/138670451-5b91951d-3045-45a1-a51f-51502f489a67.gif" alt="카테고리_검색" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669733-61b71780-15f0-4328-8fbe-57e8f9e088cf.gif" alt="키워드로_검색" width=80%> | <img src="https://user-images.githubusercontent.com/52682603/138669815-6821b6d2-e26c-487d-aae9-72f9aaf8bfff.gif" alt="전체보기" width=80%> |
 </br>

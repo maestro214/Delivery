@@ -22,7 +22,7 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 
 |                    🧐 로고                                   |                      👯 로그인/회원가입                       |                         :newspaper: 내 택배 리스트                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="" width=60%>
+| <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="" width=30%>
  | <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="선호도_입력과_리뷰_작성" width=80%> | <img src="https://user-images.githubusercontent.com/48754650/154864574-8eb2c415-4827-4d06-84f8-058f5d5823d6.jpg" alt="리뷰_수정" width=80%> |
 
 |                     :pencil2: 택배 리스트 추가                      |                     :truck: 배송 조회 창                      |                     :heavy_check_mark: 지도화면                      |

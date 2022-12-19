@@ -6,7 +6,7 @@
 이 앱은 텍스트로 나오던 물류창고의 위치를 지도위의 마커로 표시해 어디서 출발했고 어딜 거쳐서 우리집으로 오는지 눈으로 확인할수 있습니다.   
 </br>
 <h3>의의</h3>
-출시용이 아닌 안드로이드의 기초를 다잡으려고 만든 실습 앱입니다.</br>
+안드로이드의 기초를 다잡으려고 만든 실습 앱입니다.</br>
 recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이터의 효율적인 이동 등을 공부하는데 의미를 두었습니다.
 </br>
 <h3>🛠사용된 기술</h3>
@@ -28,7 +28,7 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/48754650/154864756-760cfa64-accb-4f92-a56e-caa9fa89dcee.jpg" alt="택배추가" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864764-b0d8d9b4-d73e-48e2-8a67-4e272c6ac8f9.jpg" alt="배송조회창" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864773-a3dc94c7-b0eb-4b64-ac40-e149af13c2dc.jpg" alt="지도화면" width=40%> |
 
-|                      🔎 추적할 택배선택                         |                      :boy: 마이페이지                         |                          :wrench:  택배경로 추적                         |
+|                      🔎 추적할 택배선택                         |                      :boy: 마이페이지                         |                          :wrench:  택배경로 추적()                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/48754650/154864794-5d0ab2e8-793a-4660-982b-1bd519ca4b1f.jpg" alt="택배선택" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864802-57f88b1e-f5b4-4b02-bf94-253bad0487b8.jpg" alt="마이페이지" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154865032-4fabb7d9-5068-4aaf-ac74-e064a129f08e.jpg" alt="지도화면" width=40%> |
 </br>

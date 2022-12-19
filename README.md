@@ -28,7 +28,7 @@ recyclerview의 어댑터사용 / Activity와 Fragment의 생명주기 / 데이�
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/48754650/154864756-760cfa64-accb-4f92-a56e-caa9fa89dcee.jpg" alt="택배추가" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864764-b0d8d9b4-d73e-48e2-8a67-4e272c6ac8f9.jpg" alt="배송조회창" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864773-a3dc94c7-b0eb-4b64-ac40-e149af13c2dc.jpg" alt="지도화면" width=40%> |
 
-|                      🔎 추적할 택배선택                         |                      :boy: 마이페이지                         |                          :wrench:  택배경로 추적()                         |
+|                      🔎 추적할 택배선택                         |                      :boy: 마이페이지                         |                          :wrench:  택배경로 추적(미구현)                         |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/48754650/154864794-5d0ab2e8-793a-4660-982b-1bd519ca4b1f.jpg" alt="택배선택" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154864802-57f88b1e-f5b4-4b02-bf94-253bad0487b8.jpg" alt="마이페이지" width=40%> | <img src="https://user-images.githubusercontent.com/48754650/154865032-4fabb7d9-5068-4aaf-ac74-e064a129f08e.jpg" alt="지도화면" width=40%> |
 </br>
